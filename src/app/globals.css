@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* :root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+} */
+
+/* @font-face {
+  font-family: 'Miar';
+  src: url('../fonts/Miar.ttf') format('ttf'),
+       
+ 
+}
+
+body {
+  font-family: 'Miar', sans-serif;
+} */
+
+.app-bg{
+  background: linear-gradient(213.38deg, rgba(17, 102, 238, 0.1) 0%, rgba(17, 102, 238, 0.03) 17.4%, rgba(17, 102, 238, 0.03) 80.55%, rgba(17, 102, 238, 0.1) 99.45%);
+}
+.login-box-shadow{
+  box-shadow: 10px 20px 32px 0px #7090B033;
+
+}
+.btn-bg{
+  background: linear-gradient(180deg, #0575E6 0%, #2948FF 100%);
+
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+/* .password-parent{
+  border: 1px solid #DFE5EE;
+  border-radius: 24px;
+}
+.password-field:hover {
+  border-color: blue !important;
+} */
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.hover-show{
+  display: none;
+}
+/* .hover-first:hover div.hover-later{
+  display: inline-block !important;
+} */
+.hover-cls:hover .hover-show
+{
+  display: flex !important;
+}
+
+.item-hover{
+  color: #1A5CF4;
+  background-color: #e7eaefea;
+}
+
+.item-hover .hide{
+  display: flex;
+}
+.item-hover2 {
+  color: #1A5CF4 !important;
+  background-color: #e7eaefea !important;
+}
+.item-hover2 .hide{
+  display: flex;
+}
+.before-dot::before{
+content: "";
+position: absolute;
+top: -30px;
+left: 50%;
+height: 20px;
+width: 20px;
+border-radius: 50%;
+background-color:#e7eaefea ;
+z-index: 999999999999999;
+}
+
+.menu div{
+  width: 35px;
+  height: 5px;
+  background-color: black;
+  margin: 6px 0;
+}
+
+.promptIconBox{
+  background: linear-gradient(180deg, #0575E6 0%, #2948FF 100%);
+  box-shadow: 0px 10px 20px -10px rgba(5, 117, 230, 0.28);
+
+
+}
+/* a.sideLink:active{
+  background-color: #e7eaefea;
+} */
