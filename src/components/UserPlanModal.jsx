@@ -7,7 +7,7 @@ import {
   ModalFooter,
   Button,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import CloseIcon from "./CloseIcon";
 import PlanCard from "./PlanCard";
 import Link from "next/link";

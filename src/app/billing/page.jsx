@@ -11,7 +11,7 @@ import PaidIcon from "@/components/PaidIcon";
 import SelectPaymentModal from "@/components/SelectPaymentModal";
 import ShowMoreIcon from "@/components/ShowMoreIcon";
 import VisaIcon from "@/components/VisaIcon";
-import { useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@heroui/react";
 import React, { useState } from "react";
 
 const data=[

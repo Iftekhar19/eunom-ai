@@ -1,5 +1,5 @@
 import React from "react";
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter,Button, useDisclosure} from "@nextui-org/react";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter,Button, useDisclosure} from "@heroui/react";
 
 
 export default function DeletePopupModal({isOpen,onOpen,onOpenChange,children,title,deleteSideBarData,id}) {

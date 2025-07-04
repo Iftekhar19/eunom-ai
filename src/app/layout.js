@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { UserAuthContextProvider } from "./context/userAuthContext";
-import {NextUIProvider} from '@nextui-org/react'
+import {HeroUIProvider} from "@heroui/react"
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -19,9 +19,9 @@ export default function RootLayout({ children }) {
       <body 
       className={inter.className}
       >
-      <NextUIProvider>
+      <HeroUIProvider>
         {children}
-        </NextUIProvider>
+        </HeroUIProvider>
         </body>
        
       </UserAuthContextProvider>

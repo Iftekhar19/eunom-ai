@@ -1,33 +1,28 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { useUserAuth } from "../../context/userAuthContext";
+import { useUserAuth } from "../context/userAuthContext";
 import Sidebar from "@/components/Sidebar";
 import { data } from "@/Data/tempData";
+import { useRouter } from "next/navigation";
 import NoGenScreen from "@/components/NoGenScreen";
-import PromptBox from "@/components/PromptBox";
-import { useRouter } from 'next/navigation'
-const page = () => {
+import PromptBox2 from "@/components/PromptBox2";
+
+const layout = ({ children }) => {
   const temp = useRef(null);
   const user = useUserAuth();
   const [sideBarData, setSidebarData] = useState(data);
   const [toggleSidebar, setToggleSidebar] = useState(false);
-  const [isFirst,setIsFirst]=useState(true)
-  const router = useRouter()
-    useEffect(()=>
-  {
- 
-    console.log(user)
-   if(user && user?.user?.hasOwnProperty("uid"))
-   {
-     console.log("there is")
-   }
-   else{
-  router.push("/signup")
-   console.log("nothing is there")
-   }
- 
-
-  },[user])
+  const [isFirst, setIsFirst] = useState(true);
+  const router = useRouter();
+  useEffect(() => {
+    console.log(user);
+    if (user && user?.user?.hasOwnProperty("uid")) {
+      console.log("there is");
+    } else {
+      router.push("/signup");
+      console.log("nothing is there");
+    }
+  }, [user]);
   return (
     <div className="h-[100dvh] w-full xs:px-1 sm:px-2 xs:py-1 sm:py-2 relative  bg-[#e7eaefea]">
       <div className="h-full w-full flex ">
@@ -54,12 +49,7 @@ const page = () => {
         )}
 
         {/* right  main generation section*/}
-        <section className="flex-1 ">
-          <div className="max-w-[1000px] w-full h-full mx-auto  overflow-y-auto flex flex-col  items-center">
-           <NoGenScreen/>
-           <PromptBox setIsFirst={setIsFirst} isFirst={isFirst} setSideBarData={setSidebarData}/>
-          </div>
-        </section>
+        {children}
       </div>
       {/* for hemburger menu */}
       {!toggleSidebar && (
@@ -76,4 +66,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default layout;

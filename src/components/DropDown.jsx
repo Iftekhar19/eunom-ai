@@ -1,5 +1,5 @@
 import React from 'react'
-import {Select, SelectItem} from "@nextui-org/react";
+import {Select, SelectItem} from "@heroui/react";
 
 const DropDown = ({data,value,setValues,name,isBilling,setCountryIndex,countryIndex}) => {
   const changeHandler=(e)=>

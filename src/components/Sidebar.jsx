@@ -4,7 +4,7 @@ import Image from "next/image";
 import ismg from "../../public/icons/user.png";
 import Logo from "./Logo";
 import ListItem from "./ListItem";
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, useDisclosure} from "@nextui-org/react";
+import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, useDisclosure} from "@heroui/react";
 import { useParams,useRouter } from 'next/navigation'
 import { signOut } from "firebase/auth";
 
@@ -101,7 +101,7 @@ const Sidebar = ({ sideBarData, setSidebarData,toggleSidebar,setToggleSidebar,is
             Today
           </span>
         </div>
-        <ul className="flex flex-col gap-3 pl-3">
+        <ul className="flex flex-col gap-2 pl-3">
           {sideBarData.filter(e=>e?.text?.includes(searchText.trim())).map((d)=><ListItem params={params.id} deleteSideBarData={deleteSideBarData} key={d.id} d={d}/>)}
         </ul>
       </section>

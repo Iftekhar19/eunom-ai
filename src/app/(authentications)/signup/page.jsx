@@ -17,7 +17,7 @@ import { createUserWithEmailAndPassword} from 'firebase/auth';
 import { auth, db } from '@/config/firebase.config';
 import { useUserAuth } from '@/app/context/userAuthContext';
 import PasswordField from '@/components/PasswordField';
-import {Spinner} from "@nextui-org/react";
+import {Spinner} from "@heroui/react";
 import * as Yup from "yup"
 import { collection, doc, getDoc, getDocs, limit, query, setDoc, where } from 'firebase/firestore';
 import { googleLogin } from '@/utils/googleLogin';

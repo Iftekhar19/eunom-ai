@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@heroui/react";
 import { emailValidation } from "@/utils/emaiValidatiom";
 import { checkUser } from "@/utils/checkUser";
 import { sendPasswordResetEmail } from "firebase/auth";

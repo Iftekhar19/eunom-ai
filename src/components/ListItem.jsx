@@ -8,7 +8,7 @@ import {
   Button,
   cn,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import SaveIcon from "./SaveIcon";
 import ThreeDots from "./ThreeDots";
 import ShareIcon from "./ShareIcon";
@@ -128,7 +128,7 @@ const ListItem = ({ d, deleteSideBarData,params }) => {
       
       >
          <Link
-    href={`/dashboard/${d.id}`}
+    href={`/dashboard/chats/${d.id}`}
     replace
     className="flex-1 sideLink overflow-hidden text-ellipsis whitespace-nowrap"
     >
