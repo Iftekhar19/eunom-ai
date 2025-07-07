@@ -1,20 +1,4 @@
-"use client";
-import React, { useEffect, useRef, useState } from "react";
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Button,
-  cn,
-  useDisclosure,
-} from "@heroui/react";
-import Image from "next/image";
-
-// import {AddNoteIcon} from "./AddNoteIcon.jsx";
-// import {CopyDocumentIcon} from "./CopyDocumentIcon.jsx";
-// import {EditDocumentIcon} from "./EditDocumentIcon.jsx";
-// import {DeleteDocumentIcon} from "./DeleteDocumentIcon.jsx";
+import { useState, useRef, useEffect } from "react";
 import SaveIcon from "./SaveIcon";
 import ThreeDots from "./ThreeDots";
 import ShareIcon from "./ShareIcon";
@@ -25,51 +9,26 @@ import SharePopupModal from "./SharePopupModal";
 import img from "../../public/icons/deleteImage.gif";
 import ShareBigIcon from "./ShareBigIcon";
 import CopyIcon from "./CopyIcon";
+import { useDisclosure ,  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,} from "@heroui/react";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useParams,useRouter } from "next/navigation";
+import { useUserAuth } from "@/app/context/userAuthContext";
 
-const ListItem = ({ d, deleteSideBarData, params }) => {
-  // console.log(params)
-  const router = useRouter();
-  // console.log(object)
+export default function ChatList({ id, title }) {
+  const [openMenuId, setOpenMenuId] = useState(null);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [editable, setEditable] = useState(false);
-  // const ref=useRef()
-  // useEffect(() => {
-  //   Array.from(document.querySelectorAll("#li-hover")).map((ele, index) => {
-  //     ele?.addEventListener("click", (e) => {
+   const [editable, setEditable] = useState(false);
+   const user=useUserAuth();
+   const { toggleSidebarHandler } = user;
+  const menuRef = useRef(null);
+  const router = useRouter();
+  const params = useParams();
 
-  //       document
-  //         .querySelectorAll("#li-hover")
-  //         ?.forEach((el) => el?.classList?.remove("item-hover"));
 
-  //       e.stopPropagation();
-
-  //       document
-  //         .querySelectorAll("#li-hover")
-  //         [index]?.classList?.add("item-hover");
-  //     });
-  //   });
-  // }, []);
-  // console.log(id)
-  // useEffect(() => {
-  //   document?.querySelectorAll("#li-hover").forEach((li, index) => {
-  //     li?.addEventListener("mouseover", (e) => {
-  //       // document.querySelectorAll("#li-hover")?.forEach((el)=>el?.classList?.toggle("hide"))
-  //       // console.log(document.querySelectorAll("#li-hover")[index]);
-  //       e.stopPropagation();
-  //       li.classList.add("item-hover2");
-  //       document.querySelectorAll(".hide")[index]?.classList?.add(".hide");
-  //     });
-  //     li.addEventListener("mouseleave", (e) => {
-  //       e.stopPropagation();
-  //       li.classList.remove("item-hover2");
-  //       document.querySelectorAll(".hide")[index]?.classList?.remove(".hide");
-  //     });
-  //   });
-  // }, []);
-
-  const copyText = (elementId) => {
+    const copyText = (elementId) => {
     // Select the element with the provided ID
     var element = document.getElementById(elementId);
 
@@ -87,7 +46,7 @@ const ListItem = ({ d, deleteSideBarData, params }) => {
       });
   };
 
-  function toggleEditable(divId) {
+    function toggleEditable(divId) {
     var div = document.getElementById(divId);
     console.log(div);
     // Toggle contentEditable attribute on click
@@ -111,36 +70,36 @@ const ListItem = ({ d, deleteSideBarData, params }) => {
       document.addEventListener("click", clickOutsideHandler);
     }
   }
+  // Close menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setOpenMenuId(null);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
-    <>
-      <li
-        id="li-hover"
-        className={`flex items-center text-[14px] cursor-pointer font-[400]  
-        relative grow overflow-hidden whitespace-nowrap ml-2.5
-        pl-2.5
-         ${
-           d.id == params ? "bg-[#e7eaefea] text-[#1A5CF4]" : ""
-         }
+    <li className={`group relative flex items-center justify-between px-4 py-1 rounded-l-md text-sm text-gray-800 hover:bg-gray-200 transition cursor-pointer ${id==params.id ? "bg-gray-200" : ""}`}>
+      <span className="truncate pl-1 flex-1 capitalize" onClick={(e)=>
+        {
+          e.stopPropagation();
+          toggleSidebarHandler();
+          router.push(`/dashboard/chats/${id}`);
+          
+        }
+      } >{title}</span>
+      {/* <Link className="truncate pl-1" href={`/dashboard/chats/${id}`}>{title}</Link> */}
+
+      {/* Three Dots Button */}
+      <div className="relative">
        
-        capitalize
-        
-        `}
-      >
-        <Link
-          href={`/dashboard/chats/${d.id}`}
-          replace
-          className="flex-1 sideLink overflow-hidden text-ellipsis whitespace-nowrap "
-        >
-          <div className="     py-2 " id={d.id}>
-            {d.title}
-          </div>
-        </Link>
-        {(
-          <div className=" w-auto   to-transparent pl-1 bg-[#dfe5ef97] rounded-l-[24px] flex min-w-20 from-60%  items-center gap-1">
-            <Menu
-              className="flex-1"
-              d={d}
+           <Menu
+              className="flex-1 "
+              id={id}
               isOpen={isOpen}
               onOpen={onOpen}
               onOpenChange={onOpenChange}
@@ -148,38 +107,30 @@ const ListItem = ({ d, deleteSideBarData, params }) => {
               copyText={copyText}
               setEditable={setEditable}
               toggleEditable={toggleEditable}
+              title={title}
             />
-            {/* <span className='flex-1'> */}
-            <SaveIcon className="flex-1" />
-            {/* </span> */}
+      
 
-            <p className="h-[30px]  rounded-l-[100%]  border-l-[2px] border-l-[blue]  flex justify-center items-center ml-2 px-1 pl-2 relative before-dot">
-              <span className="w-[15px] h-[15px] rounded-full bg-[blue]"></span>
-            </p>
-          </div>
-        )}
-      </li>
-      {/* </Link> */}
-    </>
+ 
+      </div>
+    </li>
   );
-};
-
-export default ListItem;
-// bg-gradient-to-l
+}
 
 function Menu({
   className,
   isOpen: isOpen2,
   onOpen: onOpen2,
   onOpenChange: onOpneChange2,
-  d,
+   id,
   deleteSideBarData,
   copyText,
   setEditable,
   toggleEditable,
+  title,
 }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const params=useParams();
+  const params=useParams()
   const iconClasses =
     "text-xl text-default-500 pointer-events-none flex-shrink-0";
 
@@ -189,7 +140,7 @@ function Menu({
         <DropdownTrigger onClick={(e) => e.stopPropagation()}>
           <button
             //   variant="bordered"
-            className="bg-none border-none outline-none h-full"
+            className="bg-none border-none outline-none h-auto pt-1"
           >
             <ThreeDots className="" width={20} />
           </button>
@@ -235,17 +186,18 @@ function Menu({
         isOpen={isOpen2}
         onOpenChange={onOpneChange2}
         // deleteSideBarData={deleteSideBarData}
-        id={d.id}
+        
+        id={id}
         title={"Delete Chat?"}
       >
         <div className="h-full  flex flex-col items-center w-full justify-start gap-6">
-          <Image src={img} height={66} width={59} alt="delete image" />
+          {/* <Image src={img} height={66} width={59} alt="delete image" /> */}
           <div className="flex flex-col gap-1 items-center">
             <span className="text-[#1B2559] font-[700] text-[20px]">
               Delete Chat?
             </span>
             <div className="text-[#718096] font-[500] text-[16px]">
-              This will delete {d.text}
+              This will delete {title}
             </div>
           </div>
         </div>
@@ -274,16 +226,16 @@ function Menu({
             <span className="text-[#1B2559] font-[400] text-[14px]">
               Chat Link
             </span>
-            <div className="border-[1px] border-[#DFE5EE] py-4 px-5 flex items-center rounded-[24px]">
+            <div className="border-[1px] border-[#DFE5EE] w-full py-4 px-5 flex items-center rounded-[24px]">
               <span
-                className="text-[#1B2559] text-[16px] flex-1 text-ellipsis overflow-x-clip font-[500]"
+                className="text-[#1B2559] text-[16px] w-[90%] text-ellipsis overflow-x-clip font-[500] "
                 id="chat-link"
               >
-               {`http://localhost:3000/shared/chats/${params.id}`}
+               {`http://localhost:3000/shared/chats/${id}`}
               </span>
               <button
                 onClick={() => copyText("chat-link")}
-                className="text-blue-500 flex items-center gap-1"
+                className="text-blue-500 flex items-center w-[80px] gap-1 "
               >
                 <CopyIcon /> <span>Copy</span>
               </button>
@@ -294,3 +246,4 @@ function Menu({
     </>
   );
 }
+

@@ -4,6 +4,7 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter,Button} from "@
 
 export default function SharePopupModal({isOpen,onOpen2,onOpenChange,children}) {
 //   const {isOpen, onOpen, onOpenChange} = useDisclosure();
+ 
 
   return (
     <>

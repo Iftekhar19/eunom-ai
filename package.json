@@ -13,11 +13,16 @@
       "@google/generative-ai": "^0.24.1",
       "@heroui/react": "2.7.8",
       "axios": "^1.9.0",
+      "cookies-next": "^6.0.0",
       "firebase": "^10.11.0",
+      "firebase-admin": "^13.4.0",
       "framer-motion": "^11.1.7",
+      "jwt-decode": "^4.0.0",
       "next": "14.2.2",
       "react": "^18",
       "react-dom": "^18",
+      "react-icons": "^5.5.0",
+      "react-markdown": "^10.1.0",
       "yup": "^1.4.0"
    },
    "devDependencies": {

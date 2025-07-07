@@ -3,29 +3,74 @@ import { useState, useRef } from 'react';
 import PromptBoxIcon from './PromptBoxIcon';
 import GenerateIcon from './GenerateIcon';
 import uploadImage from '@/utils/uploadImage';
+import { useParams } from 'next/navigation';
+import { genContent } from '@/utils/genContent';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { db } from '@/config/firebase.config';
 
-export default function PromptBox2({ onSend, onImageUpload , setIsFirst, isFirst, setSideBarData,setData }) {
-  const [message, setMessage] = useState('');
+export default function PromptBox2({ setData,setLoading, loading }) {
   const fileInputRef = useRef(null);
   const [isUploading, setIsUploading] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadedUrl, setUploadedUrl] = useState('');
   const [blobUrl, setBlobUrl] = useState('');
+  const [uploadedUrl, setUploadedUrl] = useState('');
+  const params = useParams();
 
 
 
-//   const handleSend = () => {
-//     if (prompt.trim() !== '') {
-//       onSend(prompt);
-//       setPrompt('');
-//     }
-//   };
+  const handleSend = async() => {
 
-  const handleKeyPress = (e) => {
+    if(!prompt || prompt.trim() === '') return ;
+   
+      
+      await setData((old) => {
+          let data = [...old];
+          data.push({
+            id: `${data.length}`,
+            content: prompt,
+            role: 'user',
+            timestamp: new Date().toISOString(),
+          });
+          return data;
+       })
+      setLoading(true);
+       try {
+       const res= await genContent(prompt);
+       const cleanedContent = res
+  .replace(/```(\w+)?\n([^\n]+)\n```/g, (_, lang, code) =>
+    code.length < 30 ? '`' + code + '`' : '```' + (lang || '') + '\n' + code + '\n```'
+  );
+
+
+    
+       await addDoc(
+         collection(db, 'chats', params.id, 'messages'),
+          {
+            role: "user",
+                 content: prompt,
+                 timestamp: serverTimestamp(),
+          })
+        await addDoc(
+         collection(db, 'chats', params.id, 'messages'),
+          {
+            role: "ai",
+                 content: cleanedContent,
+                 timestamp: serverTimestamp(),
+          })
+       } catch (error) {
+        
+        console.log('Error sending message:', error);
+       }
+    setLoading(false);
+      setPrompt('');
+    
+  };
+
+  const handleKeyPress = async(e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSend();
+     await handleSend();
     }
   };
 

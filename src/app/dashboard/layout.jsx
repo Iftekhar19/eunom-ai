@@ -10,40 +10,50 @@ import PromptBox2 from "@/components/PromptBox2";
 const layout = ({ children }) => {
   const temp = useRef(null);
   const user = useUserAuth();
+  const { toggleSidebar} = user;
   const [sideBarData, setSidebarData] = useState(data);
-  const [toggleSidebar, setToggleSidebar] = useState(false);
+  // const [toggleSidebar, setToggleSidebar] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
   const router = useRouter();
-  useEffect(() => {
-    console.log(user);
-    if (user && user?.user?.hasOwnProperty("uid")) {
-      console.log("there is");
-    } else {
-      router.push("/signup");
-      console.log("nothing is there");
-    }
-  }, [user]);
+  const [loading, setLoading] = useState(false);
+  // useEffect(() => {
+  //   // console.log(user);
+ 
+  //     if (user && user?.user?.hasOwnProperty("uid")) {
+  //     console.log("there is");
+  //   } else {
+  //     setTimeout(()=>
+  //     {
+  //       if(!(user && user?.user?.hasOwnProperty("uid"))){
+  //              router.push("/signup");
+  //          console.log("nothing is there");
+  //       }
+        
+
+  //     },1000)
+   
+  //   }
+  
+  // }, [user?.user?.uid]);
+  // console.log(t1,t2)
   return (
-    <div className="h-[100dvh] w-full xs:px-1 sm:px-2 xs:py-1 sm:py-2 relative  bg-[#e7eaefea]">
+    <div className="h-[100dvh] w-full xs:px-1 sm:px-0 xs:py-0 sm:py-0 relative  bg-[#e7eaefea]">
       <div className="h-full w-full flex ">
         {/* left for desktop */}
-        <section className="w-[292px] xs:hidden sm:block rounded-[24px] bg-[white]">
+        <section className="w-[292px] xs:hidden sm:block  bg-[white]">
           <Sidebar
-            sideBarData={sideBarData}
-            setSidebarData={setSidebarData}
-            toggleSidebar={"undefined"}
-            isFirst={isFirst}
-            setIsFirst={setIsFirst}
+           
+            // toggleSidebar={"undefined"}
+           
           />
         </section>
         {/* left for mobile */}
         {toggleSidebar && (
-          <section className="w-[350px] transition-all xs:block sm:hidden overflow-auto h-[98dvh]  absolute left-0 top-2 rounded-[24px] bg-[white]">
+          <section className="w-[350px] transition-all xs:block sm:hidden overflow-auto h-[100dvh] z-[100] absolute left-0   bg-[white]">
             <Sidebar
-              sideBarData={sideBarData}
-              setSidebarData={setSidebarData}
+              
               toggleSidebar={toggleSidebar}
-              setToggleSidebar={setToggleSidebar}
+              // setToggleSidebar={setToggleSidebar}
             />
           </section>
         )}
@@ -52,16 +62,16 @@ const layout = ({ children }) => {
         {children}
       </div>
       {/* for hemburger menu */}
-      {!toggleSidebar && (
+      {/* {!toggleSidebar && (
         <div
           className="menu absolute top-2 xs:block sm:hidden right-3 cursor-pointer"
-          onClick={() => setToggleSidebar(!toggleSidebar)}
+          // onClick={togg}
         >
           <div></div>
           <div></div>
           <div></div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

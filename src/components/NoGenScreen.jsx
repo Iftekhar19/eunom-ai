@@ -26,7 +26,7 @@ const NoGenScreen = () => {
          <div className='bg-[#DFEBF8] min-h-[76px] p-4 flex flex-col justify-center items-center rounded-lg'>
             <span>Generate all the text you want.</span>
             <span>(Complete step-by-step website compliance)</span>
-            <Link href={"dashboard/chats/10"}>click here</Link>
+            <Link href={"dashboard/chats/7XQSGOhnJt6ZaySIYBQG"}>click here</Link>
          </div> 
          
                </section>
