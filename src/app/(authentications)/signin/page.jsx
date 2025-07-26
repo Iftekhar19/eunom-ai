@@ -9,7 +9,7 @@ import MsIcon from "@/components/MsIcon";
 import AppleIcon from "@/components/AppleIcon";
 import Link from "next/link";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/config/firebase.config";
+import { auth } from "@/config/firebaseClient";
 import { useRouter } from "next/navigation";
 import { useUserAuth } from "@/app/context/userAuthContext";
 import { emailValidation } from "@/utils/emaiValidatiom";

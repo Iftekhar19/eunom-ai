@@ -6,9 +6,9 @@ import uploadImage from '@/utils/uploadImage';
 import { useParams } from 'next/navigation';
 import { genContent } from '@/utils/genContent';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import { db } from '@/config/firebase.config';
+import { db } from '@/config/firebaseClient';
 
-export default function PromptBox2({ setData,setLoading, loading }) {
+export default function PromptBox2({ setData,setLoading, loading,setChatLoading }) {
   const fileInputRef = useRef(null);
   const [isUploading, setIsUploading] = useState(false);
   const [prompt, setPrompt] = useState("");
@@ -34,14 +34,15 @@ export default function PromptBox2({ setData,setLoading, loading }) {
           });
           return data;
        })
-      setLoading(true);
+      // setLoading(true);
+      setChatLoading(true)
        try {
        const res= await genContent(prompt);
        const cleanedContent = res
   .replace(/```(\w+)?\n([^\n]+)\n```/g, (_, lang, code) =>
     code.length < 30 ? '`' + code + '`' : '```' + (lang || '') + '\n' + code + '\n```'
   );
-
+  
 
     
        await addDoc(
@@ -62,7 +63,8 @@ export default function PromptBox2({ setData,setLoading, loading }) {
         
         console.log('Error sending message:', error);
        }
-    setLoading(false);
+    // setLoading(false);
+    setChatLoading(false)
       setPrompt('');
     
   };

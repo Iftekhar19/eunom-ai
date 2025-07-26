@@ -3,7 +3,7 @@ import LoadingPage from "@/components/LoadingPage";
 import LogoText from "@/components/Logo";
 import LogoIcon from "@/components/LogoIcon";
 import MarkdownRenderer from "@/components/MarkDownRenderer";
-import { db } from "@/config/firebase.config";
+import { db } from "@/config/firebaseClient";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useParams } from "next/navigation";
 import React, { useEffect } from "react";

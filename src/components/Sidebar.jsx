@@ -7,7 +7,7 @@ import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, useDisclo
 import { useParams,useRouter } from 'next/navigation'
 import { signOut } from "firebase/auth";
 
-import { auth, db } from "@/config/firebase.config";
+import { auth, db } from "@/config/firebaseClient";
 import LogoIcon from "./LogoIcon";
 import UserPlanModal from "./UserPlanModal";
 import MyPlanIcon from "./MyPlanIcon";

@@ -1,4 +1,4 @@
-import { db } from "@/config/firebase.config"
+import { db } from "@/config/firebaseClient"
 import { collection, getDocs, limit, query, where } from "firebase/firestore"
 
 export async function checkUser(email)

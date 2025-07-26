@@ -13,7 +13,7 @@ import {
   serverTimestamp,
   setDoc,
 } from "firebase/firestore";
-import { db } from "@/config/firebase.config";
+import { db } from "@/config/firebaseClient";
 import { genContent } from "@/utils/genContent";
 import { useRouter } from "next/navigation";
 import LoadingPage from "@/components/LoadingPage";
@@ -160,7 +160,7 @@ const page = () => {
           <NoGenScreen />
         )}
 
-        <div className="xs:w-full md:w-3/4">
+        <div className="xs:w-full md:w-3/4 pb-2">
           <form
             name="prompt"
             className="flex items-center  gap-2 w-full py-2  rounded-lg border border-gray-300 shadow-md bg-white mt-2 overflow-hidden px-2"

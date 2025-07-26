@@ -14,7 +14,7 @@ import {
   linkWithCredential,
   // PhoneAuthProvider
 } from "firebase/auth";
-import { db,auth } from "@/config/firebase.config";
+import { db,auth } from "@/config/firebaseClient";
 
 const userAuthContext = createContext();
 

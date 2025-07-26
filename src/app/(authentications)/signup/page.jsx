@@ -1,37 +1,29 @@
 "use client";
+import { useUserAuth } from "@/app/context/userAuthContext";
 import AppleIcon from "@/components/AppleIcon";
+import AuthLogo from "@/components/AuthLogo";
 import Button from "@/components/Button";
 import LoginButton from "@/components/GoogleButton";
 import GoogleIcon from "@/components/GoogleIcon";
 import InputBox from "@/components/InputBox";
-import Logo from "@/components/Logo";
 import MsIcon from "@/components/MsIcon";
 import OtpBox from "@/components/OtpBox";
-import { emailValidation } from "@/utils/emaiValidatiom";
-import { generateOTP } from "@/utils/otpGeneration";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { sendEmail } from "@/utils/sendEmail";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "@/config/firebase.config";
-import { useUserAuth } from "@/app/context/userAuthContext";
 import PasswordField from "@/components/PasswordField";
-import { Spinner } from "@heroui/react";
-import * as Yup from "yup";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  limit,
-  query,
-  setDoc,
-  where,
-} from "firebase/firestore";
-import { googleLogin } from "@/utils/googleLogin";
+import { auth, db } from "@/config/firebaseClient";
 import { checkUser } from "@/utils/checkUser";
-import AuthLogo from "@/components/AuthLogo";
+import { googleLogin } from "@/utils/googleLogin";
+import { generateOTP } from "@/utils/otpGeneration";
+import { sendEmail } from "@/utils/sendEmail";
+import { Spinner } from "@heroui/react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  doc,
+  setDoc
+} from "firebase/firestore";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import * as Yup from "yup";
 const page = () => {
   // const provider=new GoogleAuthProvider();
   const router = useRouter();
