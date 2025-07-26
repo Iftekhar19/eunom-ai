@@ -3,58 +3,108 @@ import SearchIcon from "./SearchIcon";
 import Image from "next/image";
 import ismg from "../../public/icons/user.png";
 import Logo from "./Logo";
-import ListItem from "./ListItem";
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, useDisclosure} from "@nextui-org/react";
+import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, useDisclosure} from "@heroui/react";
 import { useParams,useRouter } from 'next/navigation'
 import { signOut } from "firebase/auth";
 
-import { auth } from "@/config/firebase.config";
+import { auth, db } from "@/config/firebaseClient";
 import LogoIcon from "./LogoIcon";
 import UserPlanModal from "./UserPlanModal";
 import MyPlanIcon from "./MyPlanIcon";
 import LogOutIcon from "./LogOutIcon";
 import { useUserAuth } from "@/app/context/userAuthContext";
+import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import CustomListItem from "./CustomListItem";
 
-const Sidebar = ({ sideBarData, setSidebarData,toggleSidebar,setToggleSidebar,isFirst,setIsFirst }) => {
+
+const Sidebar = ({   }) => {
   const [toggle, setToggle] = useState(false);
   const [searchText, setSearchText] = useState("");
   const params=useParams();
   const router=useRouter();
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
-  const {user}=useUserAuth();
+  const user=useUserAuth();
+  const [sideBarData, setSidebarData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const  {toggleSidebarHandler} =user;
+
   // useEffect(()=>
   // {
-  //       console.log(params.id)
+  //   let snapshot
+  //   if(user && user?.user?.hasOwnProperty("uid"))
+  //   {
+      
+  //     try {
+  //       const chatRef = collection(db, "chats");
+  //     const q = query(chatRef,where("userId","==",user?.user?.uid), orderBy("timestamp", "desc")); // DESC 
+  //      snapshot=onSnapshot(q, (snapshot) => {
+  //       const chats = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  //       console.log(chats)
+  //       setSidebarData(chats);
+  //     })
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+       
+      
+      
+  //   }
+  //   return snapshot
 
-  // },[params])
-  const deleteSideBarData=async(id)=>
-  {
-    setSidebarData((old)=>
-  {
-    return old.filter((f,i)=>(i!=(id-1)))
-  })
+  // },[user])
+
+useEffect(() => {
+  // Guard clause: wait until Firebase Auth loads
+
+
+const uid = localStorage.getItem("uid");
+// console.log(JSON.parse(uid))
+  if (!uid) {
+    console.log("nothing is there");
+    return;
   }
+ setLoading(true);
+  // Reference to clean up listener
+  const chatRef = collection(db, "chats");
+  const q = query(
+    chatRef,
+    orderBy("timestamp", "desc"),
+    where("userId", "==", JSON.parse(uid)),
+  );
 
+  const unsubscribe = onSnapshot(q, (snapshot) => {
+    const chats = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    // console.log("Chats: ", chats);
+    setLoading(false);
+    setSidebarData(chats);
+  });
+
+  return () => unsubscribe();
+}, []);
   const logoutUser =async()=>
     {
       try {
         
         await  signOut(auth)
+        localStorage.removeItem("uid");
+        router.replace("/signin")
       } catch (error) {
         console.log(error)
       }
     }
     const addnewChat=async()=>
       {
-        setIsFirst(true);
+        // setIsFirst(true);
+        // console.log(toggleSidebarHandler)
+        toggleSidebarHandler();
         router.replace(`/dashboard`)
       }
-      // useEffect(()=>
-      // {
-      //   console.log(user)
-      // },[])
+  
   return (
-    <div className="w-full h-full rounded-[24px] border-[1px] border-[#ECF0F6] bg-[] flex flex-col gap-4 pt-4 relative">
+    <div className="w-full h-full  border-[1px] border-[#ECF0F6] bg-[] flex flex-col gap-4 pt-4 relative">
       {/* logo */}
       <section className="px-5 flex items-center gap-2 uppercase">
         {/* <h1 className="font-[700] text-[28px] text-[#1B2559]">
@@ -98,11 +148,22 @@ const Sidebar = ({ sideBarData, setSidebarData,toggleSidebar,setToggleSidebar,is
       <section className="flex-1 flex flex-col gap-4 overflow-auto bg-[]">
         <div className="border-t-1 border-t-[#EFEFEF] border-b-1 border-b-[#EFEFEF] px-5">
           <span className="py-2 inline-block text-[12px] font-[500] text-[#718096]">
-            Today
+            Recent
           </span>
         </div>
-        <ul className="flex flex-col gap-3 pl-3">
-          {sideBarData.filter(e=>e?.text?.includes(searchText.trim())).map((d)=><ListItem params={params.id} deleteSideBarData={deleteSideBarData} key={d.id} d={d}/>)}
+        <ul className="flex flex-col gap-2 ">
+          {/* skeleton */}
+          {loading ?(<>
+          {
+            Array(5).fill(0).map((_, index) => (<li key={index}
+                   className="animate-pulse flex items-center justify-between rounded-md bg-gray-100 px-4 py-3 my-1"
+>                   
+            </li>))
+          }
+          </>):<>
+         {/* { sideBarData.filter(e=>e?.title?.includes(searchText.trim())).map((d)=><ListItem params={params.id}  key={d.id} d={d} />)} */}
+         { sideBarData.filter(e=>e?.title?.includes(searchText.trim())).map((d)=><CustomListItem title={d.title} key={d.id} id={d.id} />)}
+          </>}
         </ul>
       </section>
       {/* profile section */}
@@ -132,7 +193,7 @@ const Sidebar = ({ sideBarData, setSidebarData,toggleSidebar,setToggleSidebar,is
         </Button>
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions " className="w-[250px]">
-        <DropdownItem key="new" >{user?.email}</DropdownItem>
+        <DropdownItem key="new" >{user?.user?.email}</DropdownItem>
         <DropdownItem key="new" onClick={onOpen} ><span className="flex items-center gap-2"><MyPlanIcon/> My Plan</span></DropdownItem>
         {/* <DropdownItem key="copy">Copy link</DropdownItem>
         <DropdownItem key="edit">Edit file</DropdownItem> */}
@@ -164,11 +225,11 @@ const Sidebar = ({ sideBarData, setSidebarData,toggleSidebar,setToggleSidebar,is
           </span>
         </div> */}
       </section>
-      {
+      {/* {
         toggleSidebar !='undefined' &&(
-          <div className="absolute top-1 right-2 text-[22px] font-[500] text-[black] px-4 py-2 rounded-full border" onClick={()=>setToggleSidebar(false)}>X</div>
+          <div className="absolute top-1 right-2 text-[22px] font-[500] text-[black] px-4 py-2 rounded-full border" onClick={toggleSidebarHandler}>X</div>
         )
-      }
+      } */}
       <UserPlanModal isOpen={isOpen} onOpen={onOpen} onOpenChange={onOpenChange}/>
     </div>
   );

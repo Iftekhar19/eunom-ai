@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@heroui/react";
 import { emailValidation } from "@/utils/emaiValidatiom";
 import { checkUser } from "@/utils/checkUser";
 import { sendPasswordResetEmail } from "firebase/auth";
-import { auth } from "@/config/firebase.config";
+import { auth } from "@/config/firebaseClient";
 
 export default function ForgotPasswordModal({isOpen,onOpen,onOpenChange}) {
 //   const {isOpen, onOpen, onOpenChange} = useDisclosure();

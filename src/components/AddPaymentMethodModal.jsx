@@ -8,7 +8,7 @@ import {
   Button,
   RadioGroup,
   Radio,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import CloseIcon from "./CloseIcon";
 import VisaIcon from "./VisaIcon";
 import AddPaymentDetailsControls from "./AddPaymentDetailsControls";

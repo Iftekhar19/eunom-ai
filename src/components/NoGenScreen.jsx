@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 const NoGenScreen = () => {
@@ -10,22 +11,25 @@ const NoGenScreen = () => {
         </div>
        </div>
 
-       <section className='grid xs:grid-cols-1 xs:gap-2 sm:gap-4 sm:grid-cols-2 text-[14px] font-[400] text-[#718096]'>
-         <div className='bg-[#DFEBF8] h-[76px] p-4 xs:hidden md:flex flex-col justify-center items-center rounded-lg'>
+       <section className='grid xs:grid-cols-1 xs:gap-2 sm:gap-4 sm:grid-cols-2 text-[14px] font-[400] text-[#718096]  md:w-3/4 xs:w-full mx-auto'>
+         <div className='bg-[#DFEBF8] min-h-[76px] p-4 xs:hidden md:flex flex-col justify-center items-center rounded-lg'>
             <span>Answer all your questions.</span>
             <span>(Just ask me anything you like )</span>
          </div>
-         <div className='bg-[#DFEBF8] h-[76px] p-4 flex flex-col justify-center items-center rounded-lg'>
+         <div className='bg-[#DFEBF8] min-h-[76px] p-4 flex flex-col justify-center items-center rounded-lg'>
             <span>Generate all the text you want.</span>
             <span>(Complete step-by-step website compliance) </span>
-         </div>         <div className='bg-[#DFEBF8] h-[76px] p-4 xs:hidden md:flex flex-col justify-center items-center rounded-lg'>
+         </div>         <div className='bg-[#DFEBF8] min-h-[76px] p-4 xs:hidden md:flex flex-col justify-center items-center rounded-lg'>
             <span>Answer all your questions.</span>
             <span>(Just ask me anything you like )</span>
          </div>
-         <div className='bg-[#DFEBF8] h-[76px] p-4 flex flex-col justify-center items-center rounded-lg'>
+         <div className='bg-[#DFEBF8] min-h-[76px] p-4 flex flex-col justify-center items-center rounded-lg'>
             <span>Generate all the text you want.</span>
             <span>(Complete step-by-step website compliance)</span>
-         </div>       </section>
+            <Link href={"dashboard/chats/7XQSGOhnJt6ZaySIYBQG"}>click here</Link>
+         </div> 
+         
+               </section>
     </section>
   )
 }

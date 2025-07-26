@@ -14,14 +14,13 @@ import {
   linkWithCredential,
   // PhoneAuthProvider
 } from "firebase/auth";
-import { db,auth } from "@/config/firebase.config";
+import { db,auth } from "@/config/firebaseClient";
 
 const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState({});
-  const [userDetails, setUserDetails] = useState({});
-
+  const [toggleSidebar, setToggleSidebar] = useState(false);
 //   function login(email, password) {
 //     return signInWithEmailAndPassword(auth_user, email, password);
 //   }
@@ -112,8 +111,9 @@ export function UserAuthContextProvider({ children }) {
 //   }
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
+    const unsubscribe = onAuthStateChanged(auth,(currentuser) => {
       console.log("Auth", currentuser);
+
       setUser(currentuser);
     //   if (currentuser && currentuser.hasOwnProperty("uid")) {
     //     currentuser.getIdTokenResult().then(async (idTokenResult) => {
@@ -136,10 +136,16 @@ export function UserAuthContextProvider({ children }) {
     };
   }, []);
 
+  const toggleSidebarHandler = () => {
+    setToggleSidebar((prev) => !prev);
+  }
+
   return (
     <userAuthContext.Provider
       value={{
         user,
+        toggleSidebar,
+        toggleSidebarHandler,
         // login,
         // logOut,
         // verifyOtp,

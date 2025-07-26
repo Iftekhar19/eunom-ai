@@ -1,4 +1,4 @@
-import { Input, Select, SelectItem } from '@nextui-org/react'
+import { Input, Select, SelectItem } from "@heroui/react"
 import React from 'react'
 import VisaIcon from './VisaIcon'
 import AxIcon from './AxIcon'

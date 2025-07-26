@@ -1,9 +1,10 @@
 import React from "react";
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter,Button} from "@nextui-org/react";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter,Button} from "@heroui/react";
 
 
 export default function SharePopupModal({isOpen,onOpen2,onOpenChange,children}) {
 //   const {isOpen, onOpen, onOpenChange} = useDisclosure();
+ 
 
   return (
     <>

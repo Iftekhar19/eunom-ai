@@ -9,16 +9,16 @@ import MsIcon from "@/components/MsIcon";
 import AppleIcon from "@/components/AppleIcon";
 import Link from "next/link";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/config/firebase.config";
+import { auth } from "@/config/firebaseClient";
 import { useRouter } from "next/navigation";
 import { useUserAuth } from "@/app/context/userAuthContext";
 import { emailValidation } from "@/utils/emaiValidatiom";
 import { checkUser } from "@/utils/checkUser";
 import PasswordField from "@/components/PasswordField";
-import { Spinner } from "@nextui-org/react";
+import { Spinner } from "@heroui/react";
 import { googleLogin } from "@/utils/googleLogin";
 import EmailFieldWithEnableDisable from "@/components/EmailFieldWithEnableDisable";
-import { useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@heroui/react";
 import ForgotPasswordModal from "@/components/ForgotPasswordModal";
 import LogoIcon from "@/components/LogoIcon";
 import AuthLogo from "@/components/AuthLogo";
@@ -36,7 +36,8 @@ const page = () => {
     apiError: "",
   });
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
-  const submitHandler = async () => {
+  const submitHandler = async (e) => {
+    e?.preventDefault()
     if (!credentials.isEmailProceed) {
       let temp = false;
       if (credentials.email == "") {
@@ -121,12 +122,14 @@ const page = () => {
           return;
         }
         
-        await signInWithEmailAndPassword(
+     let rest=   await signInWithEmailAndPassword(
           auth,
           credentials.email.trim(),
           credentials.password.trim()
         );
-        router.push("/", { scroll: false });
+        localStorage.setItem("uid",JSON.stringify(rest.user.uid))
+        
+        router.push("/dashboard", { scroll: false });
       } catch (error) {
         console.log(error);
         setCredentials({
@@ -139,16 +142,12 @@ const page = () => {
   };
     useEffect(()=>
   {
-    console.log(user)
-    if(user && user?.user?.hasOwnProperty("uid"))
-    {
-      router.push('/dashboard',{scroll:false})
-    }
-    else{
-      console.log("not present")
+    const uid = localStorage.getItem("uid");
+    if (uid) {
+      router.push("/dashboard", { scroll: false });
     }
 
-  },[user])
+  },[])
   return (
     <div className="min-h-[100dvh] py-5  gap-5 w-full app-bg flex justify-center items-center flex-col">
       {/* <div className="flex items-center gap-4">

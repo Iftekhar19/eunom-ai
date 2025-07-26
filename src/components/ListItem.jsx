@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Dropdown,
@@ -8,36 +8,37 @@ import {
   Button,
   cn,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
+import Image from "next/image";
+
+// import {AddNoteIcon} from "./AddNoteIcon.jsx";
+// import {CopyDocumentIcon} from "./CopyDocumentIcon.jsx";
+// import {EditDocumentIcon} from "./EditDocumentIcon.jsx";
+// import {DeleteDocumentIcon} from "./DeleteDocumentIcon.jsx";
 import SaveIcon from "./SaveIcon";
 import ThreeDots from "./ThreeDots";
 import ShareIcon from "./ShareIcon";
 import RenameIcon from "./RenameIcon";
 import DeleteIcon from "./DeleteIcon";
 import DeletePopupModal from "./DeletePopupModal";
-// import {AddNoteIcon} from "./AddNoteIcon.jsx";
-// import {CopyDocumentIcon} from "./CopyDocumentIcon.jsx";
-// import {EditDocumentIcon} from "./EditDocumentIcon.jsx";
-// import {DeleteDocumentIcon} from "./DeleteDocumentIcon.jsx";
-import img from "../../public/icons/deleteImage.gif";
-import Image from "next/image";
 import SharePopupModal from "./SharePopupModal";
+import img from "../../public/icons/deleteImage.gif";
 import ShareBigIcon from "./ShareBigIcon";
 import CopyIcon from "./CopyIcon";
 import Link from "next/link";
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from "next/navigation";
 
-const ListItem = ({ d, deleteSideBarData,params }) => {
-
-  const router=useRouter();
+const ListItem = ({ d, deleteSideBarData, params }) => {
+  // console.log(params)
+  const router = useRouter();
   // console.log(object)
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [editable,setEditable]=useState(false)
+  const [editable, setEditable] = useState(false);
   // const ref=useRef()
   // useEffect(() => {
   //   Array.from(document.querySelectorAll("#li-hover")).map((ele, index) => {
   //     ele?.addEventListener("click", (e) => {
-        
+
   //       document
   //         .querySelectorAll("#li-hover")
   //         ?.forEach((el) => el?.classList?.remove("item-hover"));
@@ -51,22 +52,22 @@ const ListItem = ({ d, deleteSideBarData,params }) => {
   //   });
   // }, []);
   // console.log(id)
-  useEffect(() => {
-    document?.querySelectorAll("#li-hover").forEach((li, index) => {
-      li?.addEventListener("mouseover", (e) => {
-        // document.querySelectorAll("#li-hover")?.forEach((el)=>el?.classList?.toggle("hide"))
-        // console.log(document.querySelectorAll("#li-hover")[index]);
-        e.stopPropagation();
-        li.classList.add("item-hover2");
-        document.querySelectorAll(".hide")[index]?.classList?.add(".hide");
-      });
-      li.addEventListener("mouseleave", (e) => {
-        e.stopPropagation();
-        li.classList.remove("item-hover2");
-        document.querySelectorAll(".hide")[index]?.classList?.remove(".hide");
-      });
-    });
-  }, []);
+  // useEffect(() => {
+  //   document?.querySelectorAll("#li-hover").forEach((li, index) => {
+  //     li?.addEventListener("mouseover", (e) => {
+  //       // document.querySelectorAll("#li-hover")?.forEach((el)=>el?.classList?.toggle("hide"))
+  //       // console.log(document.querySelectorAll("#li-hover")[index]);
+  //       e.stopPropagation();
+  //       li.classList.add("item-hover2");
+  //       document.querySelectorAll(".hide")[index]?.classList?.add(".hide");
+  //     });
+  //     li.addEventListener("mouseleave", (e) => {
+  //       e.stopPropagation();
+  //       li.classList.remove("item-hover2");
+  //       document.querySelectorAll(".hide")[index]?.classList?.remove(".hide");
+  //     });
+  //   });
+  // }, []);
 
   const copyText = (elementId) => {
     // Select the element with the provided ID
@@ -88,80 +89,77 @@ const ListItem = ({ d, deleteSideBarData,params }) => {
 
   function toggleEditable(divId) {
     var div = document.getElementById(divId);
-    console.log(div)
+    console.log(div);
     // Toggle contentEditable attribute on click
-    div.contentEditable = div.contentEditable === 'true' ? 'false' : 'true';
-    if (div.contentEditable === 'true') {
-        // Focus the div
-        div?.focus();
-      } else {
-        console.log('The div is not set as contentEditable=true.');
-      }
+    div.contentEditable = div.contentEditable === "true" ? "false" : "true";
+    if (div.contentEditable === "true") {
+      // Focus the div
+      div?.focus();
+    } else {
+      console.log("The div is not set as contentEditable=true.");
+    }
     // Add event listener to detect clicks outside the div
     function clickOutsideHandler(event) {
       if (!div.contains(event.target)) {
-        div.contentEditable = 'false'; // Set contentEditable to false if clicked outside
-        document.removeEventListener('click', clickOutsideHandler); // Remove event listener
+        div.contentEditable = "false"; // Set contentEditable to false if clicked outside
+        document.removeEventListener("click", clickOutsideHandler); // Remove event listener
       }
     }
-  
+
     // Add event listener for clicks outside the div
-    if (div.contentEditable === 'true') {
-        
-      document.addEventListener('click', clickOutsideHandler);
+    if (div.contentEditable === "true") {
+      document.addEventListener("click", clickOutsideHandler);
     }
   }
-  
+
   return (
     <>
-   
-    
-     
       <li
         id="li-hover"
-        className={`flex items-center text-[14px] cursor-pointer font-[400] rounded-l-[24px]  
-        relative grow overflow-hidden whitespace-nowrap
-         ${d.id==(params &&params[0])?"bg-[#e7eaefea] text-[#1A5CF4]":""} 
+        className={`flex items-center text-[14px] cursor-pointer font-[400]  
+        relative grow overflow-hidden whitespace-nowrap ml-2.5
+        pl-2.5
+         ${
+           d.id == params ? "bg-[#e7eaefea] text-[#1A5CF4]" : ""
+         }
+       
         capitalize
-        pl-[10px]
-        `}
-      
-      >
-         <Link
-    href={`/dashboard/${d.id}`}
-    replace
-    className="flex-1 sideLink overflow-hidden text-ellipsis whitespace-nowrap"
-    >
-        <div className="     py-2 " id={d.id}  >{d.text}</div></Link>
-        {
-          d.id==(params && params[0]) &&(
-<div className="  to-transparent pl-1 bg-[#dfe5ef97] rounded-l-[24px] flex min-w-20 from-60%  items-center gap-1">
-          <Menu
-            className="flex-1"
-            d={d}
-            isOpen={isOpen}
-            onOpen={onOpen}
-            onOpenChange={onOpenChange}
-            deleteSideBarData={deleteSideBarData}
-            copyText={copyText}
-            setEditable={setEditable}
-            toggleEditable={toggleEditable}
-           
-          />
-          {/* <span className='flex-1'> */}
-          <SaveIcon className="flex-1" />
-          {/* </span> */}
-
-          <p className="h-[30px]  rounded-l-[100%]  border-l-[2px] border-l-[blue]  flex justify-center items-center ml-2 px-1 pl-2 relative before-dot">
-            <span className="w-[15px] h-[15px] rounded-full bg-[blue]"></span>
-          </p>
-        </div>
-          )
-        }
         
+        `}
+      >
+        <Link
+          href={`/dashboard/chats/${d.id}`}
+          replace
+          className="flex-1 sideLink overflow-hidden text-ellipsis whitespace-nowrap "
+        >
+          <div className="     py-2 " id={d.id}>
+            {d.title}
+          </div>
+        </Link>
+        {(
+          <div className=" w-auto   to-transparent pl-1 bg-[#dfe5ef97] rounded-l-[24px] flex min-w-20 from-60%  items-center gap-1">
+            <Menu
+              className="flex-1"
+              d={d}
+              isOpen={isOpen}
+              onOpen={onOpen}
+              onOpenChange={onOpenChange}
+              // deleteSideBarData={deleteSideBarData}
+              copyText={copyText}
+              setEditable={setEditable}
+              toggleEditable={toggleEditable}
+            />
+            {/* <span className='flex-1'> */}
+            <SaveIcon className="flex-1" />
+            {/* </span> */}
+
+            <p className="h-[30px]  rounded-l-[100%]  border-l-[2px] border-l-[blue]  flex justify-center items-center ml-2 px-1 pl-2 relative before-dot">
+              <span className="w-[15px] h-[15px] rounded-full bg-[blue]"></span>
+            </p>
+          </div>
+        )}
       </li>
       {/* </Link> */}
-      
     </>
   );
 };
@@ -177,13 +175,11 @@ function Menu({
   d,
   deleteSideBarData,
   copyText,
-  setEditable
-  ,
+  setEditable,
   toggleEditable,
-
-  
 }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const params=useParams();
   const iconClasses =
     "text-xl text-default-500 pointer-events-none flex-shrink-0";
 
@@ -216,11 +212,10 @@ function Menu({
             className="text-[14px] font-[500] text-[#1B2559]"
             //   shortcut="⌘C"
             startContent={<RenameIcon />}
-            onClick={()=>
-                {toggleEditable(d.id)
-                    // tempref?.current?.focus()
-                }
-            }
+            onClick={() => {
+              toggleEditable(d.id);
+              // tempref?.current?.focus()
+            }}
           >
             Rename
           </DropdownItem>
@@ -239,7 +234,7 @@ function Menu({
         onOpen={onOpen2}
         isOpen={isOpen2}
         onOpenChange={onOpneChange2}
-        deleteSideBarData={deleteSideBarData}
+        // deleteSideBarData={deleteSideBarData}
         id={d.id}
         title={"Delete Chat?"}
       >
@@ -269,7 +264,7 @@ function Menu({
                   Share Link To Chat
                 </h1>
                 <p className="text-[#718096] font-[500] text-[16px]">
-                  Messages you send after creating your link won't be shared.
+                  {/* Messages you send after creating your link won't be shared. */}
                   Anyone with the URL will be able to view the shared chat.
                 </p>
               </div>
@@ -280,10 +275,16 @@ function Menu({
               Chat Link
             </span>
             <div className="border-[1px] border-[#DFE5EE] py-4 px-5 flex items-center rounded-[24px]">
-              <span className="text-[#1B2559] text-[16px] flex-1 text-ellipsis overflow-x-clip font-[500]" id="chat-link">
-                aap.eunomai.com/projects/website
+              <span
+                className="text-[#1B2559] text-[16px] flex-1 text-ellipsis overflow-x-clip font-[500]"
+                id="chat-link"
+              >
+               {`http://localhost:3000/shared/chats/${params.id}`}
               </span>
-              <button onClick={()=>copyText("chat-link")} className="text-blue-500 flex items-center gap-1">
+              <button
+                onClick={() => copyText("chat-link")}
+                className="text-blue-500 flex items-center gap-1"
+              >
                 <CopyIcon /> <span>Copy</span>
               </button>
             </div>
