@@ -92,6 +92,7 @@ const page = () => {
       //   // console.log(res.)
       // }
       let res = await checkUser(credentials.email);
+      console.log("Res",res)
       if (res) {
         throw new Error("Account already Exist");
       }

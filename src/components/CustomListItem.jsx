@@ -163,10 +163,10 @@ function Menu({
             className="text-[14px] font-[500] text-[#1B2559]"
             //   shortcut="⌘C"
             startContent={<RenameIcon />}
-            onClick={() => {
-              toggleEditable(d.id);
-              // tempref?.current?.focus()
-            }}
+            // onClick={() => {
+            //   toggleEditable(d.id);
+              
+            // }}
           >
             Rename
           </DropdownItem>
@@ -231,7 +231,9 @@ function Menu({
                 className="text-[#1B2559] text-[16px] w-[90%] text-ellipsis overflow-x-clip font-[500] "
                 id="chat-link"
               >
-               {`http://localhost:3000/shared/chats/${id}`}
+                {typeof window !== "undefined"
+                  ? `${window.location.origin}/shared/chats/${id}`
+                  : ""}
               </span>
               <button
                 onClick={() => copyText("chat-link")}

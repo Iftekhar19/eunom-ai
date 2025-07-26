@@ -74,7 +74,7 @@ const page = () => {
             ? "`" + code + "`"
             : "```" + (lang || "") + "\n" + code + "\n```"
       );
-
+ 
       // 1. Create a new chat document
       const chatRef = await addDoc(collection(db, "chats"), {
         title: prompt.slice(0, 30) + "...",
@@ -91,14 +91,14 @@ const page = () => {
       // 2. Add user message
       await addDoc(messageRef, {
         role: "user",
-        content: prompt,
+        text: prompt,
         timestamp: serverTimestamp(),
       });
 
       // 3. Add AI response
       await addDoc(messageRef, {
-        role: "ai",
-        content: cleanedContent,
+        role: "model",
+        text: cleanedContent,
         timestamp: serverTimestamp(),
       });
       setPrompt(""); // Clear the prompt after sending

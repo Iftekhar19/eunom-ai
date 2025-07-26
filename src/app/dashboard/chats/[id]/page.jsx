@@ -16,14 +16,13 @@ import { useUserAuth } from "@/app/context/userAuthContext";
 // import Markdown from 'react-markdown';
 
 const page = () => {
-
   const [chatLoading, setChatLoading] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
   const params = useParams();
   const divRef = React.useRef(null);
   const [data, setData] = React.useState([]);
   const user = useUserAuth();
-  const router=useRouter()
+  const router = useRouter();
   const { toggleSidebarHandler, toggleSidebar } = user;
   useEffect(() => {
     const uid = localStorage.getItem("uid");
@@ -75,35 +74,35 @@ const page = () => {
       {loading ? (
         <LoadingPage />
       ) : (
-        <div className="xs:w-full md:w-3/4  h-full mx-auto overflow-y-auto flex flex-col items-center ">
-          <div className=" text-sm  flex-1   flex flex-col gap-5 pt-3 overflow-y-auto">
+        <div className="xs:w-full md:w-3/4 h-full mx-auto flex flex-col items-center">
+          <div className="text-sm flex-1 flex flex-col gap-5 pt-3 overflow-y-auto w-full px-2">
             {data?.map((message, i) => {
               return (
-                //  <div className={`text-start p-2 bg-[#d0d4da97] rounded-2xl  ${message.role === 'user' ? 'self-end' : 'self-start'}`} key={message.id||i}>
-                //   {message.role === 'user' ?message.content : <Markdown >{message.content}</Markdown>}
-                //  </div>
                 message.role === "user" ? (
                   <div
-                    className={`text-start p-2 bg-[#a6a8ab97] rounded-2xl flex items-start gap-2  self-end`}
+                    className="text-start p-2 bg-[#a6a8ab97] rounded-2xl flex items-start gap-2 self-end break-words max-w-full"
                     key={message.id || i}
+                    style={{ wordBreak: "break-word", maxWidth: "90vw" }}
                   >
-                    <span>{message.content}</span>
+                    <span>{message.text}</span>
                   </div>
                 ) : (
-                  <div className={`  self-start`} key={message.id || i}>
-                    {/* <div className='w-10 h-8 flex items-center justify-center'>
-                      <LogoIcon />
-                     </div> */}
-                    <div className="text-start p-2 bg-[#cfd1d4ce] rounded-2xl w-full overflow-x-auto text-wrap">
-                      {/* <Markdown >{message.content}</Markdown> */}
-
-                      <MarkdownRenderer content={message.content} />
+                  <div className="self-start max-w-full" key={message.id || i}>
+                    <div className="text-start p-2 bg-[#cfd1d4ce] rounded-2xl w-full break-words max-w-full"
+                      style={{ wordBreak: "break-word", maxWidth: "95vw" }}>
+                      <MarkdownRenderer content={message.text} />
                     </div>
                   </div>
                 )
               );
             })}
-            {chatLoading && "Loading..."}
+            {chatLoading && (
+              <div className="flex flex-row gap-2">
+                <div className="w-2 h-2 rounded-full bg-blue-700 animate-bounce [animation-delay:.7s]"></div>
+                <div className="w-2 h-2 rounded-full bg-blue-700 animate-bounce [animation-delay:.3s]"></div>
+                <div className="w-2 h-2 rounded-full bg-blue-700 animate-bounce [animation-delay:.7s]"></div>
+              </div>
+            )}
             <div ref={divRef}></div>
           </div>
 
@@ -116,6 +115,7 @@ const page = () => {
               loading={loading}
               setChatLoading={setChatLoading}
               setLoading={setLoading}
+              history={data}
               setData={setData}
             />
           </div>
@@ -124,5 +124,7 @@ const page = () => {
     </section>
   );
 };
+
+
 
 export default page;

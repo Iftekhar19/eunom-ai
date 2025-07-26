@@ -44,7 +44,10 @@ const page = () => {
   return (
     <>
     {
-        loading ?<LoadingPage/> :
+        loading ?<div className="h-[100dvh] w-full flex justify-center items-center">
+          <LoadingPage/> 
+          </div>
+          :
    
     <div className=" flex flex-col w-full h-[100dvh] ">
       <div className=" w-full ">
@@ -54,44 +57,42 @@ const page = () => {
         </div>
       </div>
 
-      <div className="flex-1  mx-auto overflow-y-auto  md:w-3/4 xs:w-full pb-1 pt-3 ">
-      <div className=" flex flex-col gap-3 md:px-6 xs:px-2 md:w-[95%] xs:w-full mx-auto">
-
-        {data?.map((message, i) => {
-          return (
-            //  <div className={`text-start p-2 bg-[#d0d4da97] rounded-2xl  ${message.role === 'user' ? 'self-end' : 'self-start'}`} key={message.id||i}>
-            //   {message.role === 'user' ?message.content : <Markdown >{message.content}</Markdown>}
-            //  </div>
-            message.role === "user" ? (
-              <div
-                className={`text-start p-2 bg-[#dbdbdd] rounded-l-2xl rounded-br-2xl flex items-start gap-2  self-end relative m-2`}
-                key={message.id || i}
-                style={{borderTopRightRadius:"8px"}}
-              >
-                <span className="pr-2">{message.content}</span>
-                <div className="absolute bottom-[20px] right-[-5px] bg-[#dbdbdd]   -z-20 h-4 w-4 rotate-45 text-xs text-gray-500" >
-
-                </div>
-              </div>
-            ) : (
-              <div className={`  self-start relative`} key={message.id || i}>
-                {/* <div className='w-10 h-8 flex items-center justify-center'>
-                                  <LogoIcon />
-                                 </div> */}
-                <div className="  text-start  p-2 bg-[#dbdbdd]  rounded-r-2xl rounded-bl-2xl w-full overflow-x-auto text-wrap"
-                                style={{borderTopLeftRadius:"10px"}}
-
+      <div className="flex-1 mx-auto overflow-y-auto md:w-3/4 xs:w-full pb-1 pt-3">
+        <div className="flex flex-col gap-3 md:px-6 xs:px-2 md:w-[95%] xs:w-full mx-auto w-full">
+          {data?.map((message, i) => {
+            return (
+              message.role === "user" ? (
+                <div
+                  className="text-start p-2 bg-[#dbdbdd] rounded-l-2xl rounded-br-2xl flex items-start gap-2 self-end relative m-2 break-words max-w-full"
+                  key={message.id || i}
+                  style={{
+                    borderTopRightRadius: "8px",
+                    wordBreak: "break-word",
+                    maxWidth: "90vw"
+                  }}
                 >
-                  {/* <Markdown >{message.content}</Markdown> */}
-                  <MarkdownRenderer content={message.content} />
-                  <div className="absolute top-[6px] left-[-6px] bg-[#dbdbdd]   z-20 h-4 w-4 rotate-45 text-xs text-gray-500" > </div>
+                  <span className="pr-2">{message.text}</span>
+                  <div className="absolute bottom-[20px] right-[-5px] bg-[#dbdbdd] -z-20 h-4 w-4 rotate-45 text-xs text-gray-500"></div>
                 </div>
-              </div>
-            )
-          );
-        })}
-        <div ref={divRef}></div>
-      </div>
+              ) : (
+                <div className="self-start relative max-w-full" key={message.id || i}>
+                  <div
+                    className="text-start p-2 bg-[#dbdbdd] rounded-r-2xl rounded-bl-2xl w-full break-words max-w-full"
+                    style={{
+                      borderTopLeftRadius: "10px",
+                      wordBreak: "break-word",
+                      maxWidth: "95vw"
+                    }}
+                  >
+                    <MarkdownRenderer content={message.text} />
+                    <div className="absolute top-[6px] left-[-6px] bg-[#dbdbdd] z-20 h-4 w-4 rotate-45 text-xs text-gray-500"></div>
+                  </div>
+                </div>
+              )
+            );
+          })}
+          <div ref={divRef}></div>
+        </div>
       </div>
     </div>
      }

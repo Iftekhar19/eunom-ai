@@ -90,6 +90,7 @@ const uid = localStorage.getItem("uid");
         
         await  signOut(auth)
         localStorage.removeItem("uid");
+        router.replace("/signin")
       } catch (error) {
         console.log(error)
       }

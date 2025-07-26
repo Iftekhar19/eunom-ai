@@ -1,19 +1,17 @@
 import { db } from "@/config/firebaseClient"
 import { collection, getDocs, limit, query, where } from "firebase/firestore"
 
-export async function checkUser(email)
-{
+export async function checkUser(email) {
     try {
-       let res=await getDocs(query(collection(db,"users"),where("email","==",email),limit(1)))
-       if(!res.empty)
-       {
-        return true
-       } 
+        const q = query(
+            collection(db, "users"),
+            where("email", "==", email),
+            limit(1)
+        );
+        const res = await getDocs(q);
+        return res.size > 0;
     } catch (error) {
-        // console.log(error.message)
-        // setCredentials(old=>{
-        //     return {...old,apiError:error.message}
-        // })
-        return false
+        console.log(error.message);
+        return false;
     }
 }
